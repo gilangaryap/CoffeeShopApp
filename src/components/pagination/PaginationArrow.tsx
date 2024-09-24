@@ -4,7 +4,7 @@ interface PagePaginationProps {
   onPageChange: (page: number) => void;
 }
 
-const PagePagination = ({
+export const PagePaginationArrows = ({
   pages,
   currentPage,
   onPageChange,
@@ -75,5 +75,3 @@ const PagePagination = ({
     
   );
 };
-
-export default PagePagination;

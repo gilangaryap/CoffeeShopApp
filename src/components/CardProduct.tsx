@@ -1,20 +1,21 @@
 import { ShoppingCartIcon } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
-import { useStoreSelector } from "../redux/hook";
+import { IProductBody } from "../models/product";
 
-export default function CardProduct() {
+
+interface CardProductProps {
+  product: IProductBody;
+}
+
+export default function CardProduct({ product }: CardProductProps) {
   const navigate = useNavigate();
-  const { product } = useStoreSelector((state) => state.product);
 
   const handleComponentClick = (uuid: string) => {
     navigate(`/detailproduct/${uuid}`);
   };
 
-  console.log('PRODUCT LIST', product)
-
   return (
     <>
-      {product?.map((product) => (
         <div
           onClick={() => handleComponentClick(product.uuid)}
           className="w-[230px] h-[411px] lg:w-[250px] lg:h-[431px] flex flex-col items-center  snap-center hover:box-s">
@@ -55,7 +56,6 @@ export default function CardProduct() {
             </div>
           </div>
         </div>
-      ))}
     </>
   );
 }

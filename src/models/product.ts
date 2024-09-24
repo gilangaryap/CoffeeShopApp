@@ -55,6 +55,18 @@ export interface IProductBody {
   price: number;
 }
 
+export interface IPagination {
+  prevLink: string | null;
+  nextLink: string | null;
+  currentPage: number;
+  totalPages: number;
+  
+}
+
 export interface IProductResponse extends IBasicResponse {
   data: IProductBody[];
+  prevLink: string | null;
+  nextLink: string | null;
+  currentPage: number;
+  totalPages: number;
 }

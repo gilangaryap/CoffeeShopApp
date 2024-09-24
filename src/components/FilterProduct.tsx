@@ -9,7 +9,7 @@ export default function FilterProduct() {
   const { productThunk, setFilter , resetFilter} = productAction;
 
   const onApply = () => {
-    dispatch(productThunk(filter))
+    dispatch(productThunk({ filters: filter, currentPage: 1 ,productsPerPage: 6}))
   }
 
   const onReset = () => {
@@ -19,10 +19,8 @@ export default function FilterProduct() {
 
   const onChangeHandlerCategory = (e: ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
-    if (name === "specialty coffees" || name === "gourmet snacks" || name === "sweet indulgences" || name === "unique beverages") {
-      const filterTemp: IFilters = { ...filter, category: name as IFilters['category'] };
-      dispatch(setFilter(filterTemp));
-    }
+    const filterTemp: IFilters = { ...filter, category: name };
+    dispatch(setFilter(filterTemp));
   };
 
   const onChangeHandlerSortBy = (e: ChangeEvent<HTMLInputElement>) => {
