@@ -14,7 +14,7 @@ export const PagePaginationArrows = ({
   }
 
   return (
-    <div className="grid grid-cols-1 justify-center mt-8">
+    <div className="grid grid-cols-1 gap-3 justify-center mt-8">
       <div className="flex gap-5">
         <button
           className={`flex justify-center items-center rounded-full w-10 h-10 ${
@@ -59,19 +59,17 @@ export const PagePaginationArrows = ({
         </button>
       </div>
       {/* Dots Indicator */}
-      <div className="flex pl-2 gap-2 mt-4">
+      <div className="flex gap-2 px-2">
         {Array.from({ length: pages }).map((_, index) => (
           <div
             key={index}
-            className={`w-3 h-3 rounded-full ${
-              currentPage === index + 1 ? 
-              "bg-primary w-3 h-1" : "bg-gray-300 w-[5px] h-[5px]"
+            className={`w-3 ${
+              currentPage === index + 1 ? "h-1 w-4 rounded-3xl bg-primary" : "h-[5px] w-[5px] rounded-full bg-gray-300"
             }`}
             onClick={() => onPageChange(index + 1)}
           />
         ))}
       </div>
     </div>
-    
   );
 };

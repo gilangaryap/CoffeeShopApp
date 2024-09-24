@@ -603,11 +603,6 @@ video {
   margin-right: auto;
 }
 
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -788,10 +783,6 @@ video {
   height: 100vh;
 }
 
-.h-\[400px\] {
-  height: 400px;
-}
-
 .max-h-fit {
   max-height: -moz-fit-content;
   max-height: fit-content;
@@ -884,6 +875,14 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.w-1 {
+  width: 0.25rem;
+}
+
+.w-4 {
+  width: 1rem;
 }
 
 .min-w-full {
@@ -1217,11 +1216,6 @@ video {
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
 }
 
-.bg-blue-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
-}
-
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -1360,6 +1354,11 @@ video {
   padding-right: 1.5rem;
 }
 
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -1383,11 +1382,6 @@ video {
 .py-5 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
-}
-
-.py-0 {
-  padding-top: 0px;
-  padding-bottom: 0px;
 }
 
 .pb-2 {
@@ -1579,11 +1573,6 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.text-gray-500 {
-  --tw-text-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-text-opacity));
-}
-
 .line-through {
   text-decoration-line: line-through;
 }
@@ -1629,16 +1618,20 @@ video {
   transition-duration: 150ms;
 }
 
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .transition-transform {
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
-.transition-opacity {
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+.duration-200 {
+  transition-duration: 200ms;
 }
 
 .duration-300 {
@@ -1647,10 +1640,6 @@ video {
 
 .duration-500 {
   transition-duration: 500ms;
-}
-
-.duration-200 {
-  transition-duration: 200ms;
 }
 
 .ease-in {
@@ -1800,10 +1789,6 @@ video {
     display: none;
   }
 
-  .lg\:h-10 {
-    height: 2.5rem;
-  }
-
   .lg\:h-\[162px\] {
     height: 162px;
   }
@@ -1822,10 +1807,6 @@ video {
 
   .lg\:min-h-\[50vh\] {
     min-height: 50vh;
-  }
-
-  .lg\:w-10 {
-    width: 2.5rem;
   }
 
   .lg\:w-\[250px\] {
