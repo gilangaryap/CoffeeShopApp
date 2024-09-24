@@ -1,34 +1,49 @@
 import { useStoreDispatch, useStoreSelector } from "../redux/hook";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { testiActions } from "../redux/slice/testimonialSlice";
+import { ITestimonialBody } from "../models/testimonial";
+import PagePagination from "./pagination/PaginationArrow";
 
-
+const defaultTestimonial: ITestimonialBody = {
+  user_img: "src/assets/images/70840a4caeb335701029d52bbb650fae.jpeg",
+  full_name: "Viezh Robert",
+  user_phone: "Manager Coffe Shop",
+  comment:
+    "“Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!",
+  rating: "5",
+};
 
 export const CardTestimonial = () => {
   const dispatch = useStoreDispatch();
-  const { dataTesti, isLoading } = useStoreSelector((state) => state.testi); 
+  const { dataTesti, isLoading } = useStoreSelector((state) => state.testi);
+  const [currentPage, setCurrentPage] = useState(1);
+  const testimonialsPerPage = 1;
 
   useEffect(() => {
-    dispatch(testiActions.getTestimonialThunk()); 
+    dispatch(testiActions.getTestimonialThunk());
   }, [dispatch]);
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  if (dataTesti.length === 0) {
-    return <p>No testimonials available</p>;
-  }
+  const totalTestimonials = dataTesti.length > 0 ? dataTesti.length : 1;
+  const totalPages = Math.ceil(totalTestimonials / testimonialsPerPage);
 
-  const testimonial = dataTesti[0]; // Assuming `testi` contains the testimonials array
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const currentIndex = (currentPage - 1) * testimonialsPerPage;
+  const testimonial = dataTesti.length > 0 ? dataTesti[currentIndex] : defaultTestimonial;
 
   return (
     <main className="min-h-screen lg:min-h-[50vh] grid grid-cols-1 grid-rows-2 lg:grid-cols-2 lg:grid-rows-1 bg-gradient-to-r pl-5 md:pr-10 pr-5 md:pl-10 lg:pl-20 lg:pr-20 py-5 lg:py-10">
       <div className="flex items-center justify-center">
         <img
           className="w-[289px] h-[261px] object-cover object-top"
-          src={testimonial?.user_img || "default-image-url"} 
-          alt={testimonial ? testimonial.full_name : "No image available"} 
+          src={testimonial?.user_img || "default-image-url"}
+          alt={testimonial ? testimonial.full_name : "No image available"}
         />
       </div>
 
@@ -65,38 +80,11 @@ export const CardTestimonial = () => {
           </div>
         </div>
         <div className="flex gap-2 mt-2">
-          <button className="py-2 px-2 rounded-full bg-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6" // Changed to class w-6 h-6 for sizing
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
-              />
-            </svg>
-          </button>
-          <button className="py-2 px-2 rounded-full bg-primary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6" // Changed to class w-6 h-6 for sizing
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </button>
+          <PagePagination
+            pages={totalPages}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </main>
