@@ -1,15 +1,16 @@
 export interface IProfileBody {
-  id: number;
-  avatar?: string;
-  username?: string;
+  id: string;
+  token?: string;
+  profile_image?: string;
   full_name?: string;
-  user_phone?: string;
-  user_email?: string;
-  created_at?: string;
+  phone_number?: string;
   address?: string;
+  user_email?: string;
+  role?: string;
+  created_at?:string;
 } 
 
-export interface IUsersParams {
-  uuid: string;
+export interface IProfileParams {
+  id: string;
   token: string;
 }

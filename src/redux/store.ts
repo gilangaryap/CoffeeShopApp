@@ -5,10 +5,10 @@ import storage from "redux-persist/lib/storage";
 
 import authReducer, { AuthState } from "./slice/authSlice";
 import { productReducer, productState } from "./slice/productSlice";
-import { userReducer } from "./slice/userSlice";
+import { ProfileState, userReducer } from "./slice/profileSlice";
 import { promoReducer } from "./slice/promoSlice";
 import { registerReducer } from "./slice/createUserSlice";
-import { userEditReducer } from "./slice/userEdit";
+import { userEditReducer } from "./slice/profileUpdateSlice";
 import { productDetailReducer } from "./slice/productDetailSlice";
 import { checkoutReducer, checkoutState } from "./slice/checkout";
 import { testimonialReducer } from "./slice/testimonialSlice";
@@ -16,10 +16,18 @@ import { testimonialReducer } from "./slice/testimonialSlice";
 const authPersistConfig: PersistConfig<AuthState> = {
   key: "token",
   storage,
-  whitelist: ["token"  , "id" , "uuid" ],
+  whitelist: ["token"  , "id" ],
 };
 
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+
+const profilePersistConfig: PersistConfig<ProfileState> = {
+  key: "profile",
+  storage,
+  whitelist: ["token","id"]
+}
+
+const persistedProfileReducer = persistReducer(profilePersistConfig, userReducer);
 
 const productPersistConfig: PersistConfig<productState> = {
   key: "product:coffee",
@@ -42,7 +50,7 @@ export const store = configureStore({
     register: registerReducer,
     product: persistedProductReducer,
     productDetail: productDetailReducer,
-    profile: userReducer,
+    profile: persistedProfileReducer,
     promo: promoReducer,
     userEdit: userEditReducer,
     checkout: persistedCheckoutReducer,

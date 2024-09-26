@@ -87,14 +87,14 @@ export default function Header() {
           ))}
 
           {/* search icon */}
-          <Link to="/">
+          <Link to="product">
             <div className="w-6 h-6 text-white">
               <MagnifyingGlassIcon />
             </div>
           </Link>
 
           {/* shopping cart icon */}
-          <Link to="/">
+          <Link to="checkout">
             <div className="w-6 h-6 text-white">
               <ShoppingCartIcon />
             </div>
@@ -138,7 +138,7 @@ export default function Header() {
         {/* desktop */}
         <div className="hidden gap-4 lg:flex  lg:items-center w-full">
           {/* search icon */}
-          <Link to="/">
+          <Link to="product">
             <div className="w-5 h-5 text-white">
               <MagnifyingGlassIcon />
             </div>
@@ -149,12 +149,16 @@ export default function Header() {
             <div className="w-5 h-5 text-white">
               <ShoppingCartIcon />
             </div>
-            {cartItemCount > 0 && <sup className="text-white absolute top-0 left-6 text-[0.7rem]">{cartItemCount}</sup>}
+            {cartItemCount > 0 && (
+              <sup className="text-white absolute top-0 left-6 text-[0.7rem]">
+                {cartItemCount}
+              </sup>
+            )}
           </Link>
 
           {token ? (
             <div className="flex gap-4">
-              {/* Sign In */}
+              {/* Profile */}
               <Link to="/profile">
                 <button className="navbar-nav sign-in rounded-lg px-6 py-2 border border-white bg-transparent text-white text-sm">
                   Profile

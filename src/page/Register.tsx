@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useStoreDispatch, useStoreSelector } from "../redux/hook";
 import { userActions } from "../redux/slice/createUserSlice";
 import Input from "../components/Input";
@@ -11,6 +11,7 @@ import facebookIcon from "../assets/images/bx_bxl-facebook-circle.png";
 
 export default function Register() {
   const dispatch = useStoreDispatch();
+  const Navigate = useNavigate();
   const { dataUser, isLoading } = useStoreSelector((state) => state.register);
 
   const [form, setForm] = useState({
@@ -36,7 +37,12 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(userActions.createUserTunk(form));
+    if (passwordsMatch) {
+      dispatch(userActions.createUserTunk(form)).then(() => {
+        // Navigate to profile after successful registration
+        Navigate("/profile");
+      });
+    }
   };
   return (
     <main className="min-h-screen">

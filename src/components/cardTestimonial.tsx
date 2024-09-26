@@ -2,7 +2,7 @@ import { useStoreDispatch, useStoreSelector } from "../redux/hook";
 import { useEffect, useState } from "react";
 import { testiActions } from "../redux/slice/testimonialSlice";
 import { ITestimonialBody } from "../models/testimonial";
-import PagePagination from "./pagination/PaginationArrow";
+import { PagePaginationArrows } from "./pagination/PaginationArrow";
 
 const defaultTestimonial: ITestimonialBody = {
   user_img: "src/assets/images/70840a4caeb335701029d52bbb650fae.jpeg",
@@ -80,7 +80,7 @@ export const CardTestimonial = () => {
           </div>
         </div>
         <div className="flex gap-2 mt-2">
-          <PagePagination
+          <PagePaginationArrows
             pages={totalPages}
             currentPage={currentPage}
             onPageChange={handlePageChange}

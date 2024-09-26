@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { IProfileBody, IUsersParams } from "../../models/profile";
+import { IProfileBody, IProfileParams } from "../../models/profile";
 import { IUserResponse } from "../../models/response";
 
 export interface IProfileState {
@@ -13,13 +13,9 @@ const initialState: IProfileState = {
   dataProfile: [],
 };
 
-const getDetailUser = createAsyncThunk<
-  IProfileBody[],
-  IUsersParams,
-  { rejectValue: { error: Error; status?: number } }
->("productThunk", async (params: IUsersParams, { rejectWithValue }) => {
+const getDetailUser = createAsyncThunk<IProfileBody[],IProfileParams,{ rejectValue: { error: Error; status?: number } }>("productThunk", async (params: IProfileParams, { rejectWithValue }) => {
   try {
-    const url = `http://localhost:8080/user/account/${params.uuid}`;
+    const url = `${import.meta.env.VITE_REACT_APP_API_URL}/profile/${params.id}`;
     const result: AxiosResponse<IUserResponse> = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${params.token}`,
@@ -36,7 +32,7 @@ const getDetailUser = createAsyncThunk<
   }
 });
 
-const userSlice = createSlice({
+const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
@@ -64,9 +60,9 @@ const userSlice = createSlice({
 
 
 export const profileActions = {
-  ...userSlice.actions,
+  ...profileSlice.actions,
   getDetailUser,
 };
 
-export type userState = ReturnType<typeof userSlice.reducer>;
-export const userReducer = userSlice.reducer;
+export type ProfileState = ReturnType<typeof profileSlice.reducer>;
+export const userReducer = profileSlice.reducer;

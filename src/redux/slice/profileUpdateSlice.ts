@@ -13,25 +13,29 @@ const initialState: IUserState = {
   dataUserEdit: [],
 };
 
-const userEditTunk = createAsyncThunk<
+
+const profileUpdateTunk = createAsyncThunk<
   IProfileBody[],
   IProfileBody,
   { rejectValue: { error: Error; status?: number } }
 >("createUserTunk", async (params: IProfileBody, { rejectWithValue }) => {
   try {
-    const url = `http://localhost:8080/user/update/${params.id}`;
+    const url = `${import.meta.env.VITE_REACT_APP_API_URL}/profile/setting/${params.id}`;
     console.log(url)
-    const result: AxiosResponse<IUserResponse> = await axios.patch(url, params);
-
+    const result: AxiosResponse<IUserResponse> = await axios.patch(url,{
+      headers: {
+        Authorization: `Bearer ${params.token}`,
+      },
+    });    
     return result.data.data;
   } catch (error) {
     if (error instanceof AxiosError)
       return rejectWithValue({
-        error: error.response?.data,
-        status: error.status,
-      });
-    throw error;
-  }
+    error: error.response?.data,
+    status: error.status,
+  });
+  throw error;
+}
 });
 
 const userEditSlice = createSlice({
@@ -44,13 +48,13 @@ const userEditSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(userEditTunk.pending, (state) => {
+      .addCase(profileUpdateTunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(userEditTunk.rejected, (state) => {
+      .addCase(profileUpdateTunk.rejected, (state) => {
         state.isLoading = false;
       })
-      .addCase(userEditTunk.fulfilled, (state, action) => {
+      .addCase(profileUpdateTunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.dataUserEdit = action.payload;
       });
@@ -59,7 +63,7 @@ const userEditSlice = createSlice({
 
 export const userEditActions = {
   ...userEditSlice.actions,
-  userEditTunk,
+  profileUpdateTunk,
 };
 
 export type userEditState = ReturnType<typeof userEditSlice.reducer>;

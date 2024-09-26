@@ -20,7 +20,10 @@ export interface IBasicResponse {
 }
 
 export interface IAuthResponse extends IBasicResponse {
-  data: { token: string ,uuid: string , id: number }[];
+  data: Array<{
+    token: string;
+    id: string;
+  }>;
 }
 
 export interface IUserResponse extends IBasicResponse {

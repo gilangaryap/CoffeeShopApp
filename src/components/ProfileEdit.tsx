@@ -1,25 +1,22 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useStoreDispatch, useStoreSelector } from "../redux/hook";
 import Input from "./Input";
-import { profileActions } from "../redux/slice/userSlice";
-import { userEditActions } from "../redux/slice/userEdit";
+import { profileActions } from "../redux/slice/profileSlice";
+import axios from "axios";
 
 export default function ProfileEdit() {
   const dispatch = useStoreDispatch();
+
   const dataProfile = useStoreSelector((state) => state.profile.dataProfile);
-  const authState = useStoreSelector((state) => state.auth);
-  console.log(` "id adalah": ${authState.uuid}`)
+  const { id, token } = useStoreSelector((state) => state.auth);
   const { isLoading } = useStoreSelector((state) => state.userEdit);
 
   const [formData, setFormData] = useState({
-    avatar: "",
-    username: "",
-    full_name: "",
-    user_pass: "",
-    user_phone: "",
-    user_email: "",
-    created_at: "",
+    profile_image: "",
+    phone_number: "",
     address: "",
+    user_email: "",
+    full_name: "",
   });
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,49 +30,58 @@ export default function ProfileEdit() {
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!id || !token) {
+      console.warn("ID or token is missing.");
+      return;
+    }
+
+    const formDataToSend = { ...formData, id };
+
     try {
-      if (authState.id && authState.token && authState.uuid)  {
-        const formDataToSend = {
-          ...formData,
-          id: authState.id,
-        };
+      await axios.patch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/profile/setting/${id}`,
+        formDataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-        await dispatch(userEditActions.userEditTunk(formDataToSend));
+      resetFormData();
+      dispatch(profileActions.getDetailUser({ id, token }));
 
-        setFormData({
-          avatar: "",
-          username: "",
-          full_name: "",
-          user_pass: "",
-          user_phone: "",
-          user_email: "",
-          created_at: "",
-          address: "",
-        });
-
-        dispatch(
-          profileActions.getDetailUser({
-            uuid: authState.uuid,
-            token: authState.token,
-          })
-        );
-      }
+      alert("Profile updated successfully!");
     } catch (error) {
-      console.error("Error submitting form:", error);
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "Error submitting form:",
+          error.response?.data || error.message
+        );
+        alert("Failed to update profile. Please try again.");
+      } else {
+        console.error("Unexpected error:", error);
+        alert("An unexpected error occurred. Please try again later.");
+      }
     }
   };
 
-  useEffect(() => {
-    if (authState.uuid && authState.token) {
-      dispatch(
-        profileActions.getDetailUser({
-          uuid: authState.uuid,
-          token: authState.token,
-        })
-      );
-    }
-  }, [dispatch, authState.uuid, authState.token]);
+  const resetFormData = () => {
+    setFormData({
+      profile_image: "",
+      phone_number: "",
+      address: "",
+      user_email: "",
+      full_name: "",
+    });
+  };
 
+  useEffect(() => {
+    if (id && token) {
+      dispatch(profileActions.getDetailUser({ id, token }));
+    }
+  }, [dispatch, id, token]);
 
   return (
     <div className="profile-update-form  basis-4/5 border-2 rounded-lg font-medium">
@@ -126,14 +132,21 @@ export default function ProfileEdit() {
             <Input
               input={{
                 type: "text",
-                name: "user_phone",
+                name: "phone_number",
                 placeholder:
                   dataProfile.length > 0
-                    ? `${dataProfile[0].user_phone || "Enter Your Phone"}`
+                    ? `${dataProfile[0].phone_number || "Enter Your Phone"}`
                     : "Enter Your Phone",
                 autocomplete: "phone",
-                value: formData.user_phone,
-                onChange: onChangeHandler,
+                value: formData.phone_number,
+                onChange: (e) => {
+                  const value = e.target.value;
+                  if (/^\d*$/.test(value) && value.length <= 13) {
+                    onChangeHandler(e);
+                  } else if (value.length < 10) {
+                    setFormData({ ...formData, phone_number: value });
+                  }
+                },
               }}
             />
           </div>
