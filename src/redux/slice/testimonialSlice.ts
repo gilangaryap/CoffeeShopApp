@@ -20,7 +20,7 @@ export const getTestimonialThunk = createAsyncThunk<
 >("testimonial/getTestimonial",
   async (_, { rejectWithValue }) => {
     try {
-      const url = `http://localhost:8080/user/testimonial`;
+      const url = `${import.meta.env.VITE_REACT_APP_API_URL}/testimonial`;
       const response: AxiosResponse<ITestimonialResponse> = await axios.get(url);
       return response.data.data;
     } catch (error) {

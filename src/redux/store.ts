@@ -12,6 +12,7 @@ import { userEditReducer } from "./slice/profileUpdateSlice";
 import { productDetailReducer } from "./slice/productDetailSlice";
 import { checkoutReducer, checkoutState } from "./slice/checkout";
 import { testimonialReducer } from "./slice/testimonialSlice";
+import { historyOrderReducer } from './slice/historyOrderSlice';
 
 const authPersistConfig: PersistConfig<AuthState> = {
   key: "token",
@@ -55,6 +56,7 @@ export const store = configureStore({
     userEdit: userEditReducer,
     checkout: persistedCheckoutReducer,
     testi: testimonialReducer,
+    historyOrder: historyOrderReducer,
   },
   middleware:(getDefaultMiddleware) => getDefaultMiddleware({
     serializeableCheck: false,

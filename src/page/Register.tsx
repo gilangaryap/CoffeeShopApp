@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import { useStoreDispatch, useStoreSelector } from "../redux/hook";
 import { userActions } from "../redux/slice/createUserSlice";
 import Input from "../components/Input";
@@ -19,7 +19,7 @@ export default function Register() {
     user_email: "",
     user_pass: "",
   });
-
+  
   useEffect(() => {}, [dispatch, dataUser]);
 
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -39,7 +39,6 @@ export default function Register() {
     e.preventDefault();
     if (passwordsMatch) {
       dispatch(userActions.createUserTunk(form)).then(() => {
-        // Navigate to profile after successful registration
         Navigate("/profile");
       });
     }

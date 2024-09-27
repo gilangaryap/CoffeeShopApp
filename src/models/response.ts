@@ -1,3 +1,4 @@
+import { IHistoryOrderBody } from "./historyOrder";
 import { IDetailProduct } from "./product";
 import { IProfileBody } from "./profile";
 import { IPromoBody } from "./promo";
@@ -43,5 +44,9 @@ export interface IProductDetailResponse extends IBasicResponse {
 }
 
 export interface ITestimonialResponse extends IBasicResponse {
-  data: ITestimonialBody[]; // Changed to array
+  data: ITestimonialBody[];
+}
+
+export interface IHistoryResponse extends IBasicResponse{
+  data: IHistoryOrderBody[];
 }

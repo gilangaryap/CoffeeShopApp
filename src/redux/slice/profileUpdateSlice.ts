@@ -21,7 +21,6 @@ const profileUpdateTunk = createAsyncThunk<
 >("createUserTunk", async (params: IProfileBody, { rejectWithValue }) => {
   try {
     const url = `${import.meta.env.VITE_REACT_APP_API_URL}/profile/setting/${params.id}`;
-    console.log(url)
     const result: AxiosResponse<IUserResponse> = await axios.patch(url,{
       headers: {
         Authorization: `Bearer ${params.token}`,

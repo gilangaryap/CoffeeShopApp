@@ -8,6 +8,7 @@ import Register from "./page/Register";
 import PrivateRoute from "./components/PrivateRouter";
 import CheckoutProduct from "./page/CheckoutProducts";
 import DetailProduct from "./page/DetailProduct";
+import HistoryOrder from "./page/HistoryOrder";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
             <Profile />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "history-order",
+        element: <HistoryOrder/>
       },
       {
         path: "product",
