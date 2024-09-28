@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import CardProduct from "../components/CardProduct";
 import FilterProduct from "../components/FilterProduct";
 import { useStoreDispatch, useStoreSelector } from "../redux/hook";
 import { productAction } from "../redux/slice/productSlice";
 import PaginationNumbers from "../components/pagination/PaginationNumbers";
+import CardProduct from "../components/card/CardProduct";
 
 export default function Product() {
   const { isLoading, product, pagination } = useStoreSelector(
