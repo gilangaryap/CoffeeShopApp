@@ -2,10 +2,10 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosResponse } from "axios";
 import {
   IFilters,
-  IPagination,
   IProductBody,
-  IProductResponse,
 } from "../../models/product";
+import { IPagination } from "../../models/pagination";
+import { IProductResponse } from "../../models/response";
 
 export interface IProductState {
   filter: IFilters;
@@ -36,14 +36,12 @@ const initialState: IProductState = {
   },
 };
 
-export const productThunk = createAsyncThunk<{
-  products: IProductBody[];
-  pagination: IPagination;
-}, { filters: IFilters; currentPage: number; productsPerPage: number }, { rejectValue: { error: Error; status?: number } }>(
-  "product/fetch",
-  async ({ filters, currentPage, productsPerPage }, { rejectWithValue }) => {
+export const productThunk = createAsyncThunk<{products: IProductBody[];pagination: IPagination;}, 
+{ filters: IFilters; currentPage: number; productsPerPage: number },
+ { rejectValue: { error: Error; status?: number } }>(
+  "product/fetch", async ({ filters, currentPage, productsPerPage }, { rejectWithValue }) => {
     try {
-      const url = `http://localhost:8080/product`;
+      const url = `${import.meta.env.VITE_REACT_APP_API_URL}/product`;
       const result: AxiosResponse<IProductResponse> = await axios.get(url, {
         params: { ...filters, page: currentPage, limit: productsPerPage },
       });

@@ -1,5 +1,5 @@
 import { IHistoryOrderBody } from "./historyOrder";
-import { IDetailProduct } from "./product";
+import { IDetailProduct, IProductBody } from "./product";
 import { IProfileBody } from "./profile";
 import { IPromoBody } from "./promo";
 import { ITestimonialBody } from "./testimonial";
@@ -49,4 +49,16 @@ export interface ITestimonialResponse extends IBasicResponse {
 
 export interface IHistoryResponse extends IBasicResponse{
   data: IHistoryOrderBody[];
+  prevLink: string | null;
+  nextLink: string | null;
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface IProductResponse extends IBasicResponse {
+  data: IProductBody[];
+  prevLink: string | null;
+  nextLink: string | null;
+  currentPage: number;
+  totalPages: number;
 }

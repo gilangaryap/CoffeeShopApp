@@ -1,6 +1,6 @@
 import { ShoppingCartIcon } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
-import { IProductBody } from "../models/product";
+import { IProductBody } from "../../models/product";
 
 
 interface CardProductProps {

@@ -2,23 +2,34 @@ import imgMsg from "../assets/images/blackMessage.png";
 import { Link } from "react-router-dom";
 import { useStoreDispatch, useStoreSelector } from "../redux/hook";
 import { historyOrderActions } from "../redux/slice/historyOrderSlice";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from 'react';
+import PaginationNumbers from "../components/pagination/PaginationNumbers";
 
 export default function HistoryOrder() {
   const dispatch = useStoreDispatch();
-  const { history, isLoading } = useStoreSelector((state) => state.historyOrder);
+  const { history, isLoading, pagination } = useStoreSelector((state) => state.historyOrder);
   const authState = useStoreSelector((state) => state.auth);
-
+  const [currentPage, setCurrentPage] = useState(1);
   const [activeStatus, setActiveStatus] = useState("");
 
-  const fetchOrderHistory = (status: string) => {
+
+  const fetchOrderHistory = useCallback((status: string) => {
     const params = {
-      id: authState.id || '',
-      status,
+      filters: {
+        id: authState.id || '',
+        status,
+      },
+      currentPage,
+      productsPerPage: 1,
     };
     dispatch(historyOrderActions.historyOrderThunk(params));
-    setActiveStatus(status)
-  };
+    setActiveStatus(status);
+    setCurrentPage(1);
+  }, [dispatch, authState.id, currentPage]);
+
+  useEffect(() => {
+    fetchOrderHistory(activeStatus);
+  }, [currentPage, activeStatus, fetchOrderHistory]);
 
   return (
     <main className="px-5 md:px-10 lg:px-14 grid gap-5">
@@ -168,11 +179,11 @@ export default function HistoryOrder() {
           )}
 
           <div className="flex flex-row gap-4 items-center justify-center">
-            {[1, 2, 3, 4].map((number) => (
-              <div key={number} className="bg-gray-200 rounded-3xl p-2 px-4 hover:bg-oren active:bg-oren">
-                {number}
-              </div>
-            ))}
+            <PaginationNumbers
+              currentPage={currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={setCurrentPage}
+            />
             <div className="bg-gray-200 rounded-3xl p-2 px-4 hover:bg-oren active:bg-oren">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

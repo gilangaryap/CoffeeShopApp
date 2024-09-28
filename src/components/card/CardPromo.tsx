@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import img from "../assets/images/image_product.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { IPromoBody } from "../models/promo";
+import { IPromoBody } from "../../models/promo";
 
 export default function CardPromo() {
   const [getPromo, setPromo] = useState<IPromoBody[]>([]);

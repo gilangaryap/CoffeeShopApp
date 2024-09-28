@@ -1,5 +1,3 @@
-import { IBasicResponse } from "./response";
-
 export interface IProductBody {
   uuid: string;
   product_name: string;
@@ -53,20 +51,4 @@ export interface IProductBody {
   created_at: string;
   description: string;
   price: number;
-}
-
-export interface IPagination {
-  prevLink: string | null;
-  nextLink: string | null;
-  currentPage: number;
-  totalPages: number;
-  
-}
-
-export interface IProductResponse extends IBasicResponse {
-  data: IProductBody[];
-  prevLink: string | null;
-  nextLink: string | null;
-  currentPage: number;
-  totalPages: number;
 }

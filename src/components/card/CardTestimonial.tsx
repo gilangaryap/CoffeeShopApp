@@ -1,8 +1,8 @@
-import { useStoreDispatch, useStoreSelector } from "../redux/hook";
 import { useEffect, useState } from "react";
-import { testiActions } from "../redux/slice/testimonialSlice";
-import { ITestimonialBody } from "../models/testimonial";
-import { PagePaginationArrows } from "./pagination/PaginationArrow";
+import { ITestimonialBody } from "../../models/testimonial";
+import { useStoreDispatch, useStoreSelector } from "../../redux/hook";
+import { testiActions } from "../../redux/slice/testimonialSlice";
+import { PagePaginationArrows } from "../pagination/PaginationArrow";
 
 const defaultTestimonial: ITestimonialBody = {
   user_img: "src/assets/images/70840a4caeb335701029d52bbb650fae.jpeg",

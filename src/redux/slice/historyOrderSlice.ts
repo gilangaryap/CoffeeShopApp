@@ -2,34 +2,54 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IFilterHistoryOrder, IHistoryOrderBody } from "../../models/historyOrder";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { IHistoryResponse } from "../../models/response";
+import { IPagination } from "../../models/pagination";
 
 export interface IHistoryOrderState {
   isLoading: boolean;
   history: IHistoryOrderBody[];
   filter: IFilterHistoryOrder[];
+  pagination: IPagination;
 }
 
 const initialState: IHistoryOrderState = {
   isLoading: false,
   history: [],
   filter: [],
+  pagination: {
+    prevLink: null,
+    nextLink: null,
+    currentPage: 1,
+    totalPages: 1,
+  },
 };
 
 const historyOrderThunk = createAsyncThunk<
-  IHistoryOrderBody[],
-  IFilterHistoryOrder,
+  { history: IHistoryOrderBody[]; pagination: IPagination },
+  { filters: IFilterHistoryOrder; currentPage: number; productsPerPage: number },
   { rejectValue: { error: Error; status?: number } }
 >(
   "historyOrder/fetchHistory",
-  async (params: IFilterHistoryOrder, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const url = `${import.meta.env.VITE_REACT_APP_API_URL}/transsction/history-order/${params.id}?status=${params.status}`;
+      const { filters, currentPage, productsPerPage } = params;
+      const url = `${import.meta.env.VITE_REACT_APP_API_URL}/transsction/history-order/${filters.id}?status=${filters.status}&limit=${productsPerPage}&page=${currentPage}`;
+      
       const result: AxiosResponse<IHistoryResponse> = await axios.get(url);
-      return result.data.data;
+
+      return {
+        history: result.data.data,
+        pagination: {
+          totalData: result.data.meta?.totalData || 0,
+          totalPages: result.data.meta?.totalPage || 1,
+          prevLink: result.data.meta?.prevLink || null,
+          nextLink: result.data.meta?.nextLink || null,
+          currentPage,
+        },
+      };
     } catch (error) {
       if (error instanceof AxiosError) {
         return rejectWithValue({
-          error: error.response?.data,
+          error: error.response?.data || new Error("An error occurred"),
           status: error.response?.status,
         });
       }
@@ -56,7 +76,8 @@ const historySlice = createSlice({
       })
       .addCase(historyOrderThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.history = action.payload;
+        state.history = action.payload.history;
+        state.pagination = action.payload.pagination;
       });
   },
 });
