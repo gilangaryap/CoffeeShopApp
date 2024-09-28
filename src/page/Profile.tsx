@@ -1,5 +1,5 @@
-import ProfileDetail from '../components/ProfileDetail';
-import ProfileEdit from "../components/ProfileEdit";
+import ProfileDetail from "../components/card/cardProofile";
+import ProfileEdit from "../components/InputProfile";
 
 export default function Profile() {
   
