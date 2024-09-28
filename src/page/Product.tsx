@@ -6,9 +6,7 @@ import PaginationNumbers from "../components/pagination/PaginationNumbers";
 import CardProduct from "../components/card/CardProduct";
 
 export default function Product() {
-  const { isLoading, product, pagination } = useStoreSelector(
-    (state) => state.product
-  );
+  const { isLoading, product, pagination } = useStoreSelector((state) => state.product);
   const dispatch = useStoreDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;

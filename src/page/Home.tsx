@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import imgError from "../assets/images/Imageeror.png";
 import axios from "axios";
 import mapsImage from "../assets/images/Huge Global.png";
-import { CardTestimonial } from "../components/CardTestimonial";
+import { CardTestimonial } from "../components/card/CardTestimonial";
+
 
 
 interface ProductBody {

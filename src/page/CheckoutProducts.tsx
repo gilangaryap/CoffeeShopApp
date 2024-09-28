@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {  useStoreSelector } from "../redux/hook";
-import CheckoutProductCard from "../components/CheckoutProductCard";
+import CheckoutProductCard from "../components/card/CheckoutProductCard";
 
 export default function CheckoutProduct() {
   const navigate = useNavigate();

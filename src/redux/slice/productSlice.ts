@@ -36,10 +36,13 @@ const initialState: IProductState = {
   },
 };
 
-export const productThunk = createAsyncThunk<{products: IProductBody[];pagination: IPagination;}, 
-{ filters: IFilters; currentPage: number; productsPerPage: number },
- { rejectValue: { error: Error; status?: number } }>(
-  "product/fetch", async ({ filters, currentPage, productsPerPage }, { rejectWithValue }) => {
+export const productThunk = createAsyncThunk<
+  {products: IProductBody[];pagination: IPagination;}, 
+  { filters: IFilters; currentPage: number; productsPerPage: number },
+  { rejectValue: { error: Error; status?: number } }
+>(
+  "product/fetch",
+  async ({ filters, currentPage, productsPerPage }, { rejectWithValue }) => {
     try {
       const url = `${import.meta.env.VITE_REACT_APP_API_URL}/product`;
       const result: AxiosResponse<IProductResponse> = await axios.get(url, {

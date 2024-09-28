@@ -1,7 +1,7 @@
 import { useRef, useState, FormEvent, useEffect } from "react";
 import { useStoreSelector } from "../../redux/hook";
 import { IProfileBody } from "../../models/profile";
-import profileImg from "../assets/images/default-avatar-icon-of-social-media-user-vector.jpg";
+import profileImg from "../../assets/images/default-avatar-icon-of-social-media-user-vector.jpg";
 import axios from "axios";
 
 const defaultProfileData: IProfileBody = {

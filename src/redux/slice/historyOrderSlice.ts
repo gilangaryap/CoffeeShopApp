@@ -25,17 +25,17 @@ const initialState: IHistoryOrderState = {
 
 const historyOrderThunk = createAsyncThunk<
   { history: IHistoryOrderBody[]; pagination: IPagination },
-  { filters: IFilterHistoryOrder; currentPage: number; productsPerPage: number },
+  { filters: IFilterHistoryOrder; currentPage: number; historyPerPage: number,id: string },
   { rejectValue: { error: Error; status?: number } }
 >(
   "historyOrder/fetchHistory",
-  async (params, { rejectWithValue }) => {
+  async ({ filters, currentPage, historyPerPage,id }, { rejectWithValue }) => {
     try {
-      const { filters, currentPage, productsPerPage } = params;
-      const url = `${import.meta.env.VITE_REACT_APP_API_URL}/transsction/history-order/${filters.id}?status=${filters.status}&limit=${productsPerPage}&page=${currentPage}`;
+      const url = `${import.meta.env.VITE_REACT_APP_API_URL}/transsction/history-order/${id}`;
       
-      const result: AxiosResponse<IHistoryResponse> = await axios.get(url);
-
+      const result: AxiosResponse<IHistoryResponse> = await axios.get(url, {
+        params: { ...filters, page: currentPage, limit: historyPerPage },
+      });
       return {
         history: result.data.data,
         pagination: {

@@ -7,6 +7,5 @@ export interface IHistoryOrderBody{
     status: string;
 }
 export interface IFilterHistoryOrder{
-    id: string;
     status: string;
 }

@@ -4,11 +4,7 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export default function PaginationNumbers({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: PaginationProps) {
+export default function PaginationNumbers({currentPage,totalPages,onPageChange,}: PaginationProps) {
   const renderPaginationNumber = (pageNumber: number) => (
     <button
       key={pageNumber}
@@ -21,7 +17,9 @@ export default function PaginationNumbers({
       {pageNumber}
     </button>
   );
-
+  console.log("Current Page:", currentPage);
+  console.log("Total Pages:", totalPages);
+  
   const pageNumbers: JSX.Element[] = [];
   const startPage = Math.max(1, currentPage - 1);
   const endPage = Math.min(totalPages, startPage + 3);
