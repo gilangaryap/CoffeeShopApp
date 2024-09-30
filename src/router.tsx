@@ -9,11 +9,13 @@ import PrivateRoute from "./components/PrivateRouter";
 import CheckoutProduct from "./page/CheckoutProducts";
 import DetailProduct from "./page/DetailProduct";
 import HistoryOrder from "./page/HistoryOrder";
+import { Admin } from "./page/Admin";
+import { AddProduct } from "./page/AddProduct";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <Layout/>,
     errorElement: <h1>Error</h1>,
     children: [
       {
@@ -30,7 +32,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "history-order",
-        element: <HistoryOrder/>
+        element: (
+          <PrivateRoute to={"/login"}>
+            <HistoryOrder />
+          </PrivateRoute>
+        ),
       },
       {
         path: "product",
@@ -38,7 +44,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "checkout",
-        element: <CheckoutProduct/>,
+        element:(
+          <PrivateRoute to={"/login"}>
+            <CheckoutProduct />
+          </PrivateRoute>
+        ),
       },
       {
         path:"detailproduct/:uuid",
@@ -54,4 +64,15 @@ export const router = createBrowserRouter([
     path: "register",
     element: <Register/>
   },
+  {
+    path:"/admin",
+    element:<Admin/>,
+    errorElement:<h1>Error</h1>,
+    children:[
+      {
+        path:"add-product",
+        element:<AddProduct/>
+      }
+    ]
+  }
 ]);

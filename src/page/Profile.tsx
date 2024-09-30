@@ -1,4 +1,4 @@
-import ProfileDetail from "../components/card/cardProofile";
+import ProfileDetail from "../components/card/CardProofile";
 import ProfileEdit from "../components/InputProfile";
 
 export default function Profile() {
